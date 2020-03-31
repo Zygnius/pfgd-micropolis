@@ -150,6 +150,9 @@ public class TileConstants
 	static final char VBRDG1 = 949;
 	static final char VBRDG2 = 950;
 	static final char VBRDG3 = 951;
+	static final char NATBASE = 960;
+	static final char NATCLR = 964;
+	static final char NZB = 973; //nature zone base
 	public static final char LAST_TILE = 956;
 
 	static final char [] RoadTable = new char[] {
