@@ -190,6 +190,10 @@ class TrafficGen
 			low = LHTHR;
 			high = COMBASE;
 			break;
+		case NATURE:
+			low = LHTHR;
+			high = COMBASE;
+			break;
 		default:
 			throw new Error("unreachable");
 		}
@@ -226,6 +230,6 @@ class TrafficGen
 	 */
 	static enum ZoneType
 	{
-		RESIDENTIAL, COMMERCIAL, INDUSTRIAL;
+		RESIDENTIAL, COMMERCIAL, INDUSTRIAL, NATURE;
 	}
 }

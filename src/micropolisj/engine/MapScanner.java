@@ -41,7 +41,8 @@ class MapScanner extends TileBehavior
 		STADIUM_EMPTY,
 		STADIUM_FULL,
 		AIRPORT,
-		SEAPORT;
+		SEAPORT,
+		NATURE;
 	}
 
 	@Override
@@ -83,6 +84,9 @@ class MapScanner extends TileBehavior
 			return;
 		case SEAPORT:
 			doSeaport();
+			return;
+		case NATURE:
+			doNature();
 			return;
 		default:
 			assert false;
@@ -585,6 +589,59 @@ class MapScanner extends TileBehavior
 				doResidentialOut(tpop, value);
 			}
 		}
+	}
+	
+	/**
+	 * Called when the current tile is the key tile of a nature
+	 * zone.
+	 */
+	void doNature()
+	{
+		
+		boolean powerOn = checkZonePower();
+		city.natZoneCount++;
+
+
+		int trafficGood;
+//		if (tpop > PRNG.nextInt(6))
+//		{
+			trafficGood = makeTraffic(ZoneType.NATURE);
+//		}
+//		else
+//		{
+//			trafficGood = 1;
+//		}
+
+//		if (trafficGood == -1)
+//		{
+//			int value = getCRValue();
+//			doCommercialOut(tpop, value);
+//			return;
+//		}
+//
+//		if (PRNG.nextInt(8) == 0)
+//		{
+//			int locValve = evalCommercial(trafficGood);
+//			int zscore = city.comValve + locValve;
+//
+//			if (!powerOn)
+//				zscore = -500;
+//
+//			if (trafficGood != 0 &&
+//				zscore > -350 &&
+//				zscore - 26380 > (PRNG.nextInt(0x10000)-0x8000))
+//			{
+//				int value = getCRValue();
+//				doCommercialIn(tpop, value);
+//				return;
+//			}
+//
+//			if (zscore < 350 && zscore + 26380 < (PRNG.nextInt(0x10000)-0x8000))
+//			{
+//				int value = getCRValue();
+//				doCommercialOut(tpop, value);
+//			}
+//		}
 	}
 
 	/**
