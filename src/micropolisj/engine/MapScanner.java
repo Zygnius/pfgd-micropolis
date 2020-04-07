@@ -597,9 +597,23 @@ class MapScanner extends TileBehavior
 	 */
 	void doNature()
 	{
-		
 		boolean powerOn = checkZonePower();
 		city.natZoneCount++;
+
+		int z;
+		if (powerOn) {
+			z = city.ecoEffect;
+		} else {
+			z = city.ecoEffect / 2;
+		}
+
+		traffic.mapX = xpos;
+		traffic.mapY = ypos;
+		if (!traffic.findPerimeterRoad()) {
+			z /= 2;
+		}
+
+		city.ecoMap[ypos/8][xpos/8] += z;
 
 
 		int trafficGood;

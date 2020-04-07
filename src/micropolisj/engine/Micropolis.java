@@ -86,6 +86,8 @@ public class Micropolis
 	public int [][] fireRate;       //firestations reach- used for overlay graphs
 	int [][] policeMap;      //police stations- cleared and rebuilt each sim cycle
 	public int [][] policeMapEffect;//police stations reach- used for overlay graphs
+	int [][] ecoMap; //natural zones- cleared and rebuilt each sim cycle
+	public int [][] ecoMapEffect; //natural zones reach- used for overlay graphs
 
 	/** For each 8x8 section of city, this is an integer between 0 and 64,
 	 * with higher numbers being closer to the center of the city. */
@@ -178,6 +180,7 @@ public class Micropolis
 	int roadEffect = 32;
 	int policeEffect = 1000;
 	int fireEffect = 1000;
+	int ecoEffect = 1000;
 
 	int cashFlow; //net change in totalFunds in previous year
 
@@ -245,6 +248,8 @@ public class Micropolis
 		fireStMap = new int[smY][smX];
 		policeMap = new int[smY][smX];
 		policeMapEffect = new int[smY][smX];
+		ecoMap = new int[smY][smX];
+		ecoMapEffect = new int[smY][smX];
 		fireRate = new int[smY][smX];
 		comRate = new int[smY][smX];
 
@@ -530,6 +535,7 @@ public class Micropolis
 		resZoneCount = 0;
 		comZoneCount = 0;
 		indZoneCount = 0;
+		natZoneCount = 0;
 		hospitalCount = 0;
 		churchCount = 0;
 		policeCount = 0;
@@ -545,6 +551,7 @@ public class Micropolis
 			for (int x = 0; x < fireStMap[y].length; x++) {
 				fireStMap[y][x] = 0;
 				policeMap[y][x] = 0;
+				ecoMap[y][x] = 0;
 			}
 		}
 	}
@@ -1137,6 +1144,20 @@ public class Micropolis
 	//power, terrain, land value
 	void ptlScan()
 	{
+		//Natural Zone effects
+		ecoMap = smoothFirePoliceMap(ecoMap);
+		ecoMap = smoothFirePoliceMap(ecoMap);
+		ecoMap = smoothFirePoliceMap(ecoMap);
+
+		for (int sy = 0; sy < ecoMap.length; sy++) {
+			for (int sx = 0; sx < ecoMap[sy].length; sx++) {
+				ecoMapEffect[sy][sx] = ecoMap[sy][sx];
+			}
+		}
+
+		fireMapOverlayDataChanged(MapState.NATURE_OVERLAY);
+		
+		
 		final int qX = (getWidth()+3)/4;
 		final int qY = (getHeight()+3)/4;
 		int [][] qtem = new int[qY][qX];
@@ -1193,6 +1214,7 @@ public class Micropolis
 					dis *= 4;
 					dis += terrainMem[y/2][x/2];
 					dis -= pollutionMem[y][x];
+					dis += ecoMap[y/4][x/4] / 4;
 					if (crimeMem[y][x] > 190) {
 						dis -= 20;
 					}
@@ -1224,6 +1246,7 @@ public class Micropolis
 			for (int y = 0; y < HWLDY; y++)
 			{
 				int z = tem[y][x];
+				z -= ecoMap[y/4][x/4];
 				pollutionMem[y][x] = z;
 
 				if (z != 0)

@@ -78,7 +78,7 @@ public class ToolStroke
 			return applyZone(eff, INDCLR);
 			
 		case NATURE:
-			return applyZone(eff, NATCLR);
+			return applyZone(eff, NZB);
 
 		default:
 			// not expected
