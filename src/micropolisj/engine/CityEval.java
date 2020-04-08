@@ -278,6 +278,13 @@ public class CityEval
 				cityNo++;
 			}
 		}
+		
+		for (int i = 0; i < engine.natZoneCount; i++) {
+			if (PRNG.nextInt(100) < 60) {
+				cityYes++;
+				cityNo--;
+			}
+		}
 	}
 
 }
